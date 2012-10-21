@@ -1,0 +1,29 @@
+#!/bin/bash
+
+output=$(pacman -Ss $1 | sed 'N;s/\n/\t/g' | nl | sed 's/\(\t.*\)\t\(.*\)/\1\n    \2\n/')
+
+if [ $(echo "$output" | wc -w) -lt  1 ]
+	then
+	echo "No results found"
+
+	else
+		echo "$output"
+		echo ""
+		echo "Which packages do you want to download? (separated by a comma)"
+
+		read numbers
+
+		# save into array
+		IFS=,
+		packages=($numbers)
+
+
+		# download each package specified
+		for package in ${packages[@]}
+			do
+				packagename=`pacman -Ss $1 | sed -n 1~2p | cut -d ' ' -f1 | sed "${package}q;d"`
+				echo ""
+				echo "Downloading $packagename"
+				sudo pacman -S $packagename
+			done
+fi
