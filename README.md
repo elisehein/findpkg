@@ -3,7 +3,7 @@ findpkg
 
 A script to select packages to download straight from pacman's search output
 
-## Usage
+### Usage
 
 Add the file to your path and make it executable. 
 
